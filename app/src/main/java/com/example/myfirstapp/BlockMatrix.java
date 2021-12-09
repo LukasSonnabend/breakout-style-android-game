@@ -8,7 +8,9 @@ public class BlockMatrix {
 
     private Integer fieldRows = 7;
     private Integer maxBlocksPerRow = 10;
+    private Integer blockCount = 0;
     private Block[][] field = new Block[fieldRows][maxBlocksPerRow];
+    GameScreenActivity parentActivity;
 
     private String level =  "1000110001" +
                             "1000110001" +
@@ -19,7 +21,8 @@ public class BlockMatrix {
                             "1000110001";
 
 
-    public BlockMatrix() {
+    public BlockMatrix(GameScreenActivity act) {
+        parentActivity = act;
         //loop set rows
         Integer xOrigin;
         Integer blockHeight = 20;
@@ -33,7 +36,9 @@ public class BlockMatrix {
             yOrigin = 10 + (blockHeight*(i+1)) + (blockGap* i+1);
             //loop set block in rows
             for (int j = 0; j < maxBlocksPerRow; ++j) {
-                field[i][j] = new Block(xOrigin, yOrigin, blockHeight, blockWidth, level.charAt((maxBlocksPerRow* i)+j) == '1' ? false : true);
+                field[i][j] = new Block(xOrigin, yOrigin, blockHeight, blockWidth, level.charAt((maxBlocksPerRow* i)+j) == '1' ? false : true, this);
+                if (level.charAt((maxBlocksPerRow* i)+j) == '1')
+                    blockCount++;
                 xOrigin += blockWidth + blockGap;
             }
         }
@@ -48,7 +53,22 @@ public class BlockMatrix {
         }
     }
 
+    public void setBallPosition(int x, int y) {
+        for (int i = 0; i < 7; ++i) {
+            for (int j = 0; j < 10; ++j) {
+                field[i][j].hitDetection(x,y);
+            }
+        }
+    }
+
+    public void decrementBlockCount() {
+        this.blockCount--;
+        if (this.blockCount == 0)
+            parentActivity.openMenuActivity();
+    }
+
     // switch um block type zu setzen
+
 
 }
 

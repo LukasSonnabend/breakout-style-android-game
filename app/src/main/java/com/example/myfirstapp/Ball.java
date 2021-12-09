@@ -8,7 +8,7 @@ public class Ball {
 
     private Integer x = 0;
     private Integer y = 0;
-    private Integer radius = 10;
+    private Integer radius = 30;
     private Paint paint = new Paint();
 
     public void draw(Canvas canvas) {

@@ -11,12 +11,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private Ball ball;
     private BlockMatrix blockField;
+    GameScreenActivity parentActivity;
     private int Ballx;
     private int Bally;
 
     public GameView(Context context) {
         super(context);
 
+        parentActivity = (GameScreenActivity) context;
         getHolder().addCallback(this);
 
         // updates Canvas
@@ -32,13 +34,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         ball = new Ball();
-        blockField = new BlockMatrix();
+        blockField = new BlockMatrix(parentActivity);
         thread.setRunning(true);
         thread.start();
     }
 
     public void update() {
         ball.setXY(Ballx, Bally);
+        blockField.setBallPosition(Ballx, Bally);
         // calc positions here
 
     }
